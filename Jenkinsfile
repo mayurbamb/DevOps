@@ -3,12 +3,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        // nothing to build for a simple HTML application
+        sh 'npm install'
+        sh 'npm run build'
       }
     }
     stage('Test') {
       steps {
-        // no automated tests for a simple HTML application
+        sh 'npm test'
       }
     }
     stage('Deploy') {
@@ -19,7 +20,7 @@ pipeline {
               configName: 'my-ssh-server',
               transfers: [
                 sshTransfer(
-                  sourceFiles: '**/*',
+                  sourceFiles: 'dist/**',
                   remoteDirectory: '/var/www/html'
                 )
               ]
